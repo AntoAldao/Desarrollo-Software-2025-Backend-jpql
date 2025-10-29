@@ -15,8 +15,8 @@ public class MainConsultasJPQL {
     public static void main(String[] args) {
         //REPOSITORIO-> https://github.com/gerardomagni/jpqlquerys.git
 
-        buscarFacturas();
-//        buscarFacturas();
+        //buscarFacturas();
+        //buscarFacturas();
         //buscarFacturasActivas();
         //buscarFacturasXNroComprobante();
         //buscarFacturasXRangoFechas();
@@ -33,6 +33,9 @@ public class MainConsultasJPQL {
         listarArticulosMasVendidos();
         buscarClientes();
         buscarFacturasUltimoMes();
+        //Ejercicios 9 y 10
+        contarTotalFacturas();
+        listarFacturasMayoresaXMonto();
     }
 
 
@@ -253,6 +256,36 @@ public class MainConsultasJPQL {
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
+            mFactura.cerrarEntityManager();
+        }
+    }
+
+    //Ejercicio 9: Cantidad total de facturas generadas en el sistema
+    public static void contarTotalFacturas(){
+        FacturaManager mFactura = new FacturaManager(true);
+        try {
+            Long cantidadFacturas = mFactura.getCantidadFacturasTotal();
+            System.out.println("\n=== EJERCICIO 9: CANTIDAD TOTAL DE FACTURAS ===");
+            System.out.println("Cantidad Total de Facturas: " + cantidadFacturas);
+            System.out.println("*************************\n");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            mFactura.cerrarEntityManager();
+        }
+    }
+
+    //Ejercicio 10: Listar facturas mayores a un monto dado
+    public static void listarFacturasMayoresaXMonto() {
+        FacturaManager mFactura = new FacturaManager(true);
+        try{
+            List<Factura> facturas = mFactura.getFacturasMayoresaXMonto(3000.0);
+            System.out.println("\n=== EJERCICIO 10: FACTURAS MAYORES A $" + 3000 + " ===");
+            mostrarFacturas(facturas);
+            System.out.println("*************************\n");
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }finally {
             mFactura.cerrarEntityManager();
         }
     }
