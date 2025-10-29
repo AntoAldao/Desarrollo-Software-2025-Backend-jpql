@@ -28,11 +28,21 @@ public class MainConsultasJPQL {
         //buscarClientesXIds();
         //buscarClientesXRazonSocialParcial();
         
-        // Ejercicios 3 y 4
-        obtenerClienteConMasFacturas();
-        listarArticulosMasVendidos();
+
+        // Ejercicio 1
         buscarClientes();
+        // Ejercicio 2
         buscarFacturasUltimoMes();
+
+        // Ejercicios 3
+        obtenerClienteConMasFacturas();
+        // Ejercicio 4
+        listarArticulosMasVendidos();
+
+        // Ejercicio 13
+        buscarArticulosPrecioMayorPromedio();
+        // Ejercicio 14
+        ejemplificarExists();
     }
 
 
@@ -284,6 +294,56 @@ public class MainConsultasJPQL {
             System.out.println("CUIT: " + cli.getCuit());
             System.out.println("Razon Social: " + cli.getRazonSocial());
             System.out.println("-----------------");
+        }
+    }
+
+    // Ejercicio 13: Mostrar artículos cuyo precio de venta es mayor que el promedio
+    public static void buscarArticulosPrecioMayorPromedio(){
+        System.out.println("----- buscarArticulosPrecioMayorPromedio -----");
+        ArticuloManager mArticulo = new ArticuloManager(true);
+        try{
+            List<Articulo> articulos = mArticulo.getArticulosPrecioMayorPromedio();
+            if(articulos.isEmpty()){
+                System.out.println("No hay artículos por encima del promedio.");
+            } else {
+                for(Articulo a : articulos){
+                    System.out.println("Id: " + a.getId() + " - " + a.getDenominacion() + " - Precio: $" + a.getPrecioVenta());
+                }
+            }
+        } catch (Exception ex){
+            ex.printStackTrace();
+        } finally {
+            mArticulo.cerrarEntityManager();
+        }
+    }
+
+    // Ejercicio 14: Ejemplo de EXISTS en JPQL
+    // Busca categorías que tienen al menos un artículo con precio mayor a un umbral
+    public static void ejemplificarExists(){
+        System.out.println("Explicación: La cláusula EXISTS se usa para verificar si una subconsulta devuelve al menos una fila.\n" +
+                "\n" +
+                "Si la subconsulta devuelve una o más filas, EXISTS retorna verdadero (TRUE).\n" +
+                "\n" +
+                "Si la subconsulta no devuelve filas, EXISTS retorna falso (FALSE).\n" +
+                "\n" +
+                "Por lo tanto, EXISTS se utiliza frecuentemente en condiciones de WHERE para comprobar la existencia de registros relacionados en otra tabla.");
+        System.out.println("----- ejemplificarExists (Categorias con artículos caros) -----");
+        ArticuloManager mArticulo = new ArticuloManager(true);
+        try{
+            Double umbral = 1000d; // ejemplo: 1000 pesos
+            List<Categoria> categorias = mArticulo.getCategoriasConArticuloConPrecioMayor(umbral);
+            if(categorias.isEmpty()){
+                System.out.println("No hay categorías con artículos por encima de $" + umbral);
+            } else {
+                for(Categoria c : categorias){
+                    System.out.println("Categoria: " + c.getDenominacion() + " (id=" + c.getId() + ")");
+                }
+            }
+            System.out.println("(Consulta usando EXISTS en una subconsulta JPQL)");
+        } catch (Exception ex){
+            ex.printStackTrace();
+        } finally {
+            mArticulo.cerrarEntityManager();
         }
     }
 }
