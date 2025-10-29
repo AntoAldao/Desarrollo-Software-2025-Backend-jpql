@@ -15,7 +15,7 @@ public class MainConsultasJPQL {
     public static void main(String[] args) {
         //REPOSITORIO-> https://github.com/gerardomagni/jpqlquerys.git
 
-        //buscarFacturas();
+//        buscarFacturas();
         //buscarFacturasActivas();
         //buscarFacturasXNroComprobante();
         //buscarFacturasXRangoFechas();
@@ -26,6 +26,8 @@ public class MainConsultasJPQL {
         //mostrarMaximoNroFactura();
         //buscarClientesXIds();
         //buscarClientesXRazonSocialParcial();
+        buscarClientes();
+        buscarFacturasUltimoMes();
     }
 
 
@@ -181,7 +183,31 @@ public class MainConsultasJPQL {
         }
     }
 
+    public static void buscarClientes(){
+        System.out.println("----- buscarClientes -----");
+        ClienteManager mCliente = new ClienteManager(true);
+        try {
+            List<Cliente> clientes = mCliente.getClientes();
+            mostrarClientes(clientes);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }finally {
+            mCliente.cerrarEntityManager();
+        }
+    }
 
+    public static void buscarFacturasUltimoMes(){
+        System.out.println("----- buscarFacturasUltimoMes -----");
+        FacturaManager mFactura = new FacturaManager(true);
+        try {
+            List<Factura> facturas = mFactura.getFacturasUltimoMes();
+            mostrarFacturas(facturas);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }finally {
+            mFactura.cerrarEntityManager();
+        }
+    }
 
     public static void mostrarFactura(Factura factura){
         List<Factura> facturas = new ArrayList<>();
@@ -204,4 +230,12 @@ public class MainConsultasJPQL {
         }
     }
 
+    public static void mostrarClientes(List<Cliente> clientes){
+        for(Cliente cli : clientes){
+            System.out.println("Id: " + cli.getId());
+            System.out.println("CUIT: " + cli.getCuit());
+            System.out.println("Razon Social: " + cli.getRazonSocial());
+            System.out.println("-----------------");
+        }
+    }
 }
