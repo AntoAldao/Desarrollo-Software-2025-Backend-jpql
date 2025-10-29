@@ -375,7 +375,7 @@ public class MainConsultasJPQL {
         System.out.println("----- Ejercicio 11: Buscar Facturas con Articulo en especifico -----");
         FacturaManager mFactura = new FacturaManager(true);
         try {
-            List<Factura> facturas = mFactura.getFacturasXNombreArticulo("Teclado Gamer");
+            List<Factura> facturas = mFactura.getFacturasXNombreArticulo("Coca Cola 500ml");
             mostrarFacturas(facturas);
         } catch (Exception ex) {
             ex.printStackTrace();
