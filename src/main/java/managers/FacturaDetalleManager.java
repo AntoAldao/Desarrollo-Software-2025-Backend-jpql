@@ -46,4 +46,14 @@ public class FacturaDetalleManager {
         Articulo articulo = (Articulo) query.getSingleResult();
         return articulo;
     }
+
+    public void cerrarEntityManager() {
+        if (em != null && em.isOpen()) {
+            em.close();
+        }
+        if (emf != null && emf.isOpen()) {
+            emf.close();
+        }
+    }
+
 }
