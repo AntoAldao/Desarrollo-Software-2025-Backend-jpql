@@ -26,6 +26,15 @@ public class ArticuloManager {
         em = emf.createEntityManager();
     }
 
+    //Ejercicio 12: Listar los Artículos filtrando por código parcial
+
+    public List<Articulo> getArticulosPorCodigoParcial(String codigo){
+        String jpql = "SELECT a FROM Articulo a WHERE a.codigo LIKE :codigo";
+        Query query = em.createQuery(jpql);
+        query.setParameter("codigo", "%" + codigo + "%");
+        return query.getResultList();
+    }
+
     // Ejercicio 13: Listar todos los Artículos cuyo precio sea mayor que el promedio de los precios de todos los Artículos
     public List<Articulo> getArticulosPrecioMayorPromedio(){
         String jpql = "SELECT a FROM Articulo a WHERE a.precioVenta > (SELECT AVG(a2.precioVenta) FROM Articulo a2)";

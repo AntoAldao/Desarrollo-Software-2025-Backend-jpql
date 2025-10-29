@@ -34,7 +34,6 @@ public class MainConsultasJPQL {
         buscarClientes();
         // Ejercicio 2
         buscarFacturasUltimoMes();
-
         // Ejercicios 3
         obtenerClienteConMasFacturas();
         // Ejercicio 4
@@ -47,6 +46,10 @@ public class MainConsultasJPQL {
         listarArticulosPorFactura();
         // Ejercicio 8
         obtenerArticuloMasCaroPorFactura();
+        // Ejercicio 11
+        buscarFacturasXNombreArticulo();
+        // Ejercicio 12
+        buscarArticulosPorCodigoParcial();
         // Ejercicio 13
         buscarArticulosPrecioMayorPromedio();
         // Ejercicio 14
@@ -362,6 +365,42 @@ public class MainConsultasJPQL {
         List<Factura> facturas = new ArrayList<>();
         facturas.add(factura);
         mostrarFacturas(facturas);
+    }
+
+
+
+    ///Ejercicio 11: Consultar las facturas que contienen un Artículo específico, filtrando por el nombre del artículo
+
+    public static void buscarFacturasXNombreArticulo() {
+        System.out.println("----- Ejercicio 11: Buscar Facturas con Articulo en especifico -----");
+        FacturaManager mFactura = new FacturaManager(true);
+        try {
+            List<Factura> facturas = mFactura.getFacturasXNombreArticulo("Teclado Gamer");
+            mostrarFacturas(facturas);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            mFactura.cerrarEntityManager();
+        }
+    }
+
+
+    ///  Ejercicio 12: Listar los Artículos filtrando por código parcial
+
+
+    public static void buscarArticulosPorCodigoParcial() {
+        System.out.println("----- Ejercicio 12: Buscar Articulos por codigo parcial -----");
+        ArticuloManager mArticulo = new ArticuloManager(true);
+        try {
+            List<Articulo> articulos = mArticulo.getArticulosPorCodigoParcial("A00");
+            for (Articulo a : articulos) {
+                System.out.println("Id: " + a.getId() + " - " + a.getDenominacion() + " - Codigo: " + a.getCodigo() + " - Precio: $" + a.getPrecioVenta());
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            mArticulo.cerrarEntityManager();
+        }
     }
 
     public static void mostrarFacturas(List<Factura> facturas) {
