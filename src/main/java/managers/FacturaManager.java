@@ -181,8 +181,23 @@ public class FacturaManager {
         return facturas;
     }
 
+
+    //Ejercicio 11: Consultar las facturas que contienen un Artículo específico, filtrando por el nombre del artículo
+
+    public List<Factura> getFacturasXNombreArticulo(String nombreArticulo) {
+        String jpql = "SELECT f FROM Factura f JOIN f.detallesFactura fd JOIN fd.articulo a WHERE a.nombre = :nombreArticulo";
+        Query query = em.createQuery(jpql);
+        query.setParameter("nombreArticulo", nombreArticulo);
+        List<Factura> facturas = query.getResultList();
+        return facturas;
+    }
+
+
+
     public void cerrarEntityManager() {
         em.close();
         emf.close();
     }
+
+
 }
