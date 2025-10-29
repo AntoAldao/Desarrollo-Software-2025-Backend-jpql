@@ -7,6 +7,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -121,6 +124,19 @@ public class FacturaManager {
         List<Object[]> resultados = query.getResultList();
         return resultados;
     }
+
+    public List<Factura> getFacturasUltimoMes() {
+        LocalDate ahora = LocalDate.now();
+        LocalDate haceUnMes = ahora.minusMonths(1);
+
+        String jpql = "FROM Factura f WHERE f.fechaComprobante BETWEEN :desde AND :hasta ORDER BY f.fechaComprobante DESC";
+        Query query = em.createQuery(jpql);
+        query.setParameter("desde", haceUnMes);
+        query.setParameter("hasta", ahora);
+
+        return query.getResultList();
+    }
+
 
     public void cerrarEntityManager(){
         em.close();

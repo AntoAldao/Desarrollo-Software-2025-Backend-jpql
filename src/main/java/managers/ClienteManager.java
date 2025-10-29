@@ -99,4 +99,10 @@ public class ClienteManager {
 
         return "";
     }
+
+    public List<Cliente> getClientes(){
+        String jpql = "FROM Cliente";
+        Query query = em.createQuery(jpql);
+        return query.getResultList();
+    }
 }
