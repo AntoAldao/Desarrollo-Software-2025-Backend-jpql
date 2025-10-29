@@ -47,6 +47,17 @@ public class ClienteManager {
         return clientes;
     }
 
+    // Ejercicio 3: Obtener el cliente que ha generado más facturas
+    public Cliente getClienteConMasFacturas(){
+        String jpql = "SELECT f.cliente FROM Factura f " +
+                      "GROUP BY f.cliente " +
+                      "ORDER BY COUNT(f) DESC";
+        Query query = em.createQuery(jpql);
+        query.setMaxResults(1);
+        Cliente cliente = (Cliente) query.getSingleResult();
+        return cliente;
+    }
+
     public void cerrarEntityManager(){
         em.close();
         emf.close();

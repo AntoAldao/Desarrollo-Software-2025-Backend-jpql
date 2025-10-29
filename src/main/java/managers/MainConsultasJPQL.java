@@ -15,6 +15,7 @@ public class MainConsultasJPQL {
     public static void main(String[] args) {
         //REPOSITORIO-> https://github.com/gerardomagni/jpqlquerys.git
 
+        buscarFacturas();
 //        buscarFacturas();
         //buscarFacturasActivas();
         //buscarFacturasXNroComprobante();
@@ -26,6 +27,10 @@ public class MainConsultasJPQL {
         //mostrarMaximoNroFactura();
         //buscarClientesXIds();
         //buscarClientesXRazonSocialParcial();
+        
+        // Ejercicios 3 y 4
+        obtenerClienteConMasFacturas();
+        listarArticulosMasVendidos();
         buscarClientes();
         buscarFacturasUltimoMes();
     }
@@ -205,6 +210,49 @@ public class MainConsultasJPQL {
         } catch (Exception ex) {
             ex.printStackTrace();
         }finally {
+            mFactura.cerrarEntityManager();
+        }
+    }
+
+    // Ejercicio 3: Obtener el cliente que ha generado más facturas
+    public static void obtenerClienteConMasFacturas(){
+        ClienteManager mCliente = new ClienteManager(true);
+        try {
+            Cliente cliente = mCliente.getClienteConMasFacturas();
+            System.out.println("\n=== EJERCICIO 3: CLIENTE CON MAS FACTURAS ===");
+            System.out.println("Id: " + cliente.getId());
+            System.out.println("CUIT: " + cliente.getCuit());
+            System.out.println("Razon Social: " + cliente.getRazonSocial());
+            System.out.println("*************************\n");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            mCliente.cerrarEntityManager();
+        }
+    }
+
+    // Ejercicio 4: Listar los artículos más vendidos
+    public static void listarArticulosMasVendidos(){
+        FacturaManager mFactura = new FacturaManager(false);
+        try {
+            List<Object[]> resultados = mFactura.getArticulosMasVendidos();
+            System.out.println("\n=== EJERCICIO 4: ARTICULOS MAS VENDIDOS ===");
+            if(resultados.isEmpty()){
+                System.out.println("No hay artículos vendidos.");
+            } else {
+                for(Object[] resultado : resultados){
+                    Articulo articulo = (Articulo) resultado[0];
+                    Long totalVendido = ((Number) resultado[1]).longValue();
+                    System.out.println("Articulo: " + articulo.getDenominacion());
+                    System.out.println("Codigo: " + articulo.getCodigo());
+                    System.out.println("Cantidad Total Vendida: " + totalVendido + " unidades");
+                    System.out.println("-----------------");
+                }
+            }
+            System.out.println("*************************\n");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
             mFactura.cerrarEntityManager();
         }
     }

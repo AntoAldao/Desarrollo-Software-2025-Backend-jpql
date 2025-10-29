@@ -114,6 +114,17 @@ public class FacturaManager {
         return maxNroFactura;
     }
 
+    // Ejercicio 4: Listar los artículos más vendidos
+    public List<Object[]> getArticulosMasVendidos(){
+        String jpql = "SELECT fd.articulo, SUM(fd.cantidad) as totalVendido " +
+                      "FROM FacturaDetalle fd " +
+                      "GROUP BY fd.articulo " +
+                      "ORDER BY totalVendido DESC";
+        Query query = em.createQuery(jpql);
+        List<Object[]> resultados = query.getResultList();
+        return resultados;
+    }
+
     public List<Factura> getFacturasUltimoMes() {
         LocalDate ahora = LocalDate.now();
         LocalDate haceUnMes = ahora.minusMonths(1);
