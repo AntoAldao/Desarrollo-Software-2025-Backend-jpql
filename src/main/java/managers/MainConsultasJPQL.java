@@ -1,7 +1,7 @@
 package managers;
 
 import funciones.FuncionApp;
-import main.java.managers.FacturaDetalleManager;
+import managers.FacturaDetalleManager;
 
 import org.example.*;
 
