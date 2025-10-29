@@ -13,21 +13,20 @@ import java.util.List;
 public class MainConsultasJPQL {
 
     public static void main(String[] args) {
-        //REPOSITORIO-> https://github.com/gerardomagni/jpqlquerys.git
+        // REPOSITORIO-> https://github.com/gerardomagni/jpqlquerys.git
 
-        //buscarFacturas();
-        //buscarFacturas();
-        //buscarFacturasActivas();
-        //buscarFacturasXNroComprobante();
-        //buscarFacturasXRangoFechas();
-        //buscarFacturaXPtoVentaXNroComprobante();
-        //buscarFacturasXCliente();
-        //buscarFacturasXCuitCliente();
-        //buscarFacturasXArticulo();
-        //mostrarMaximoNroFactura();
-        //buscarClientesXIds();
-        //buscarClientesXRazonSocialParcial();
-        
+        // buscarFacturas();
+        // buscarFacturas();
+        // buscarFacturasActivas();
+        // buscarFacturasXNroComprobante();
+        // buscarFacturasXRangoFechas();
+        // buscarFacturaXPtoVentaXNroComprobante();
+        // buscarFacturasXCliente();
+        // buscarFacturasXCuitCliente();
+        // buscarFacturasXArticulo();
+        // mostrarMaximoNroFactura();
+        // buscarClientesXIds();
+        // buscarClientesXRazonSocialParcial();
 
         // Ejercicio 1
         buscarClientes();
@@ -43,49 +42,48 @@ public class MainConsultasJPQL {
         buscarArticulosPrecioMayorPromedio();
         // Ejercicio 14
         ejemplificarExists();
-        //Ejercicios 9 y 10
+        // Ejercicios 9 y 10
         contarTotalFacturas();
         listarFacturasMayoresaXMonto();
     }
 
-
-    public static void buscarFacturas(){
+    public static void buscarFacturas() {
         FacturaManager mFactura = new FacturaManager(true);
         try {
             List<Factura> facturas = mFactura.getFacturas();
             mostrarFacturas(facturas);
         } catch (Exception ex) {
             ex.printStackTrace();
-        }finally {
+        } finally {
             mFactura.cerrarEntityManager();
         }
     }
 
-    public static void buscarFacturasActivas(){
+    public static void buscarFacturasActivas() {
         FacturaManager mFactura = new FacturaManager(true);
         try {
             List<Factura> facturas = mFactura.getFacturasActivas();
             mostrarFacturas(facturas);
         } catch (Exception ex) {
             ex.printStackTrace();
-        }finally {
+        } finally {
             mFactura.cerrarEntityManager();
         }
     }
 
-    public static void buscarFacturasXNroComprobante(){
+    public static void buscarFacturasXNroComprobante() {
         FacturaManager mFactura = new FacturaManager(true);
         try {
             List<Factura> facturas = mFactura.getFacturasXNroComprobante(796910l);
             mostrarFacturas(facturas);
         } catch (Exception ex) {
             ex.printStackTrace();
-        }finally {
+        } finally {
             mFactura.cerrarEntityManager();
         }
     }
 
-    public static void buscarFacturasXRangoFechas(){
+    public static void buscarFacturasXRangoFechas() {
         FacturaManager mFactura = new FacturaManager(true);
         try {
             LocalDate fechaActual = LocalDate.now();
@@ -94,79 +92,79 @@ public class MainConsultasJPQL {
             mostrarFacturas(facturas);
         } catch (Exception ex) {
             ex.printStackTrace();
-        }finally {
+        } finally {
             mFactura.cerrarEntityManager();
         }
     }
 
-    public static void buscarFacturaXPtoVentaXNroComprobante(){
+    public static void buscarFacturaXPtoVentaXNroComprobante() {
         FacturaManager mFactura = new FacturaManager(true);
         try {
             Factura factura = mFactura.getFacturaXPtoVentaXNroComprobante(2024, 796910l);
             mostrarFactura(factura);
         } catch (Exception ex) {
             ex.printStackTrace();
-        }finally {
+        } finally {
             mFactura.cerrarEntityManager();
         }
     }
 
-    public static void buscarFacturasXCliente(){
+    public static void buscarFacturasXCliente() {
         FacturaManager mFactura = new FacturaManager(true);
         try {
             List<Factura> facturas = mFactura.getFacturasXCliente(7l);
             mostrarFacturas(facturas);
         } catch (Exception ex) {
             ex.printStackTrace();
-        }finally {
+        } finally {
             mFactura.cerrarEntityManager();
         }
     }
 
-    public static void buscarFacturasXCuitCliente(){
+    public static void buscarFacturasXCuitCliente() {
         FacturaManager mFactura = new FacturaManager(true);
         try {
             List<Factura> facturas = mFactura.getFacturasXCuitCliente("27236068981");
             mostrarFacturas(facturas);
         } catch (Exception ex) {
             ex.printStackTrace();
-        }finally {
+        } finally {
             mFactura.cerrarEntityManager();
         }
     }
 
-    public static void buscarFacturasXArticulo(){
+    public static void buscarFacturasXArticulo() {
         FacturaManager mFactura = new FacturaManager(true);
         try {
             List<Factura> facturas = mFactura.getFacturasXArticulo(6l);
             mostrarFacturas(facturas);
         } catch (Exception ex) {
             ex.printStackTrace();
-        }finally {
+        } finally {
             mFactura.cerrarEntityManager();
         }
     }
 
-    public static void mostrarMaximoNroFactura(){
+    public static void mostrarMaximoNroFactura() {
         FacturaManager mFactura = new FacturaManager(true);
         try {
             Long nroCompMax = mFactura.getMaxNroComprobanteFactura();
             System.out.println("N° " + nroCompMax);
         } catch (Exception ex) {
             ex.printStackTrace();
-        }finally {
+        } finally {
             mFactura.cerrarEntityManager();
         }
     }
 
-    public static void buscarClientesXIds(){
+    public static void buscarClientesXIds() {
         ClienteManager mCliente = new ClienteManager(true);
         try {
             List<Long> idsClientes = new ArrayList<>();
             idsClientes.add(1l);
             idsClientes.add(2l);
             List<Cliente> clientes = mCliente.getClientesXIds(idsClientes);
-            for(Cliente cli : clientes){
+            for (Cliente cli : clientes) {
                 System.out.println("Id: " + cli.getId());
                 System.out.println("CUIT: " + cli.getCuit());
                 System.out.println("Razon Social: " + cli.getRazonSocial());
@@ -175,19 +173,19 @@ public class MainConsultasJPQL {
 
         } catch (Exception ex) {
             ex.printStackTrace();
-        }finally {
+        } finally {
             mCliente.cerrarEntityManager();
         }
     }
 
-    public static void buscarClientesXRazonSocialParcial(){
+    public static void buscarClientesXRazonSocialParcial() {
         ClienteManager mCliente = new ClienteManager(true);
         try {
             List<Long> idsClientes = new ArrayList<>();
             idsClientes.add(1l);
             idsClientes.add(2l);
             List<Cliente> clientes = mCliente.getClientesXRazonSocialParcialmente("Lui");
-            for(Cliente cli : clientes){
+            for (Cliente cli : clientes) {
                 System.out.println("Id: " + cli.getId());
                 System.out.println("CUIT: " + cli.getCuit());
                 System.out.println("Razon Social: " + cli.getRazonSocial());
@@ -196,12 +194,12 @@ public class MainConsultasJPQL {
 
         } catch (Exception ex) {
             ex.printStackTrace();
-        }finally {
+        } finally {
             mCliente.cerrarEntityManager();
         }
     }
 
-    public static void buscarClientes(){
+    public static void buscarClientes() {
         System.out.println("----- buscarClientes -----");
         ClienteManager mCliente = new ClienteManager(true);
         try {
@@ -209,12 +207,12 @@ public class MainConsultasJPQL {
             mostrarClientes(clientes);
         } catch (Exception ex) {
             ex.printStackTrace();
-        }finally {
+        } finally {
             mCliente.cerrarEntityManager();
         }
     }
 
-    public static void buscarFacturasUltimoMes(){
+    public static void buscarFacturasUltimoMes() {
         System.out.println("----- buscarFacturasUltimoMes -----");
         FacturaManager mFactura = new FacturaManager(true);
         try {
@@ -222,13 +220,13 @@ public class MainConsultasJPQL {
             mostrarFacturas(facturas);
         } catch (Exception ex) {
             ex.printStackTrace();
-        }finally {
+        } finally {
             mFactura.cerrarEntityManager();
         }
     }
 
     // Ejercicio 3: Obtener el cliente que ha generado más facturas
-    public static void obtenerClienteConMasFacturas(){
+    public static void obtenerClienteConMasFacturas() {
         ClienteManager mCliente = new ClienteManager(true);
         try {
             Cliente cliente = mCliente.getClienteConMasFacturas();
@@ -245,15 +243,15 @@ public class MainConsultasJPQL {
     }
 
     // Ejercicio 4: Listar los artículos más vendidos
-    public static void listarArticulosMasVendidos(){
+    public static void listarArticulosMasVendidos() {
         FacturaManager mFactura = new FacturaManager(false);
         try {
             List<Object[]> resultados = mFactura.getArticulosMasVendidos();
             System.out.println("\n=== EJERCICIO 4: ARTICULOS MAS VENDIDOS ===");
-            if(resultados.isEmpty()){
+            if (resultados.isEmpty()) {
                 System.out.println("No hay artículos vendidos.");
             } else {
-                for(Object[] resultado : resultados){
+                for (Object[] resultado : resultados) {
                     Articulo articulo = (Articulo) resultado[0];
                     Long totalVendido = ((Number) resultado[1]).longValue();
                     System.out.println("Articulo: " + articulo.getDenominacion());
@@ -270,8 +268,59 @@ public class MainConsultasJPQL {
         }
     }
 
-    //Ejercicio 9: Cantidad total de facturas generadas en el sistema
-    public static void contarTotalFacturas(){
+    // Ejercicio 5
+    public static void buscarFacturasUltimosTresMeses() {
+        System.out.println("=== EJERCICIO 5: Facturas últimos 3 meses ===");
+        FacturaManager mFactura = new FacturaManager(true);
+        try {
+            List<Factura> facturas = mFactura.getFacturasUltimosTresMeses(7L);
+            mostrarFacturas(facturas);
+        } finally {
+            mFactura.cerrarEntityManager();
+        }
+    }
+
+    // Ejercicio 6
+    public static void calcularMontoTotalFacturadoPorCliente() {
+        System.out.println("=== EJERCICIO 6: Total facturado por cliente ===");
+        FacturaManager mFactura = new FacturaManager(true);
+        try {
+            Double total = mFactura.getMontoTotalFacturadoPorCliente(7L);
+            System.out.println("Monto total facturado: $" + total);
+        } finally {
+            mFactura.cerrarEntityManager();
+        }
+    }
+
+    // Ejercicio 7
+    public static void listarArticulosPorFactura() {
+        System.out.println("=== EJERCICIO 7: Artículos de una factura ===");
+        FacturaDetalleManager mDetalle = new FacturaDetalleManager(true);
+        try {
+            List<Articulo> articulos = mDetalle.getArticulosPorFactura(3L);
+            for (Articulo a : articulos) {
+                System.out.println("Artículo: " + a.getDenominacion() + " - Precio: $" + a.getPrecioVenta());
+            }
+        } finally {
+            mDetalle.cerrarEntityManager();
+        }
+    }
+
+    // Ejercicio 8
+    public static void obtenerArticuloMasCaroPorFactura() {
+        System.out.println("=== EJERCICIO 8: Artículo más caro de una factura ===");
+        FacturaDetalleManager mDetalle = new FacturaDetalleManager(true);
+        try {
+            Articulo articulo = mDetalle.getArticuloMasCaroPorFactura(3L);
+            System.out.println(
+                    "Artículo más caro: " + articulo.getDenominacion() + " - Precio: $" + articulo.getPrecioVenta());
+        } finally {
+            mDetalle.cerrarEntityManager();
+        }
+    }
+
+    // Ejercicio 9: Cantidad total de facturas generadas en el sistema
+    public static void contarTotalFacturas() {
         FacturaManager mFactura = new FacturaManager(true);
         try {
             Long cantidadFacturas = mFactura.getCantidadFacturasTotal();
@@ -285,44 +334,46 @@ public class MainConsultasJPQL {
         }
     }
 
-    //Ejercicio 10: Listar facturas mayores a un monto dado
+    // Ejercicio 10: Listar facturas mayores a un monto dado
     public static void listarFacturasMayoresaXMonto() {
         FacturaManager mFactura = new FacturaManager(true);
-        try{
+        try {
             List<Factura> facturas = mFactura.getFacturasMayoresaXMonto(3000.0);
             System.out.println("\n=== EJERCICIO 10: FACTURAS MAYORES A $" + 3000 + " ===");
             mostrarFacturas(facturas);
             System.out.println("*************************\n");
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
-        }finally {
+        } finally {
             mFactura.cerrarEntityManager();
         }
     }
 
-    public static void mostrarFactura(Factura factura){
+    public static void mostrarFactura(Factura factura) {
         List<Factura> facturas = new ArrayList<>();
         facturas.add(factura);
         mostrarFacturas(facturas);
     }
 
-    public static void mostrarFacturas(List<Factura> facturas){
-        for(Factura fact : facturas){
+    public static void mostrarFacturas(List<Factura> facturas) {
+        for (Factura fact : facturas) {
             System.out.println("N° Comp: " + fact.getStrProVentaNroComprobante());
             System.out.println("Fecha: " + FuncionApp.formatLocalDateToString(fact.getFechaComprobante()));
             System.out.println("CUIT Cliente: " + FuncionApp.formatCuitConGuiones(fact.getCliente().getCuit()));
-            System.out.println("Cliente: " + fact.getCliente().getRazonSocial() + " ("+fact.getCliente().getId() + ")");
+            System.out
+                    .println("Cliente: " + fact.getCliente().getRazonSocial() + " (" + fact.getCliente().getId() + ")");
             System.out.println("------Articulos------");
-            for(FacturaDetalle detalle : fact.getDetallesFactura()){
-                System.out.println(detalle.getArticulo().getDenominacion() + ", " + detalle.getCantidad() + " unidades, $" + FuncionApp.getFormatMilDecimal(detalle.getSubTotal(), 2));
+            for (FacturaDetalle detalle : fact.getDetallesFactura()) {
+                System.out.println(detalle.getArticulo().getDenominacion() + ", " + detalle.getCantidad()
+                        + " unidades, $" + FuncionApp.getFormatMilDecimal(detalle.getSubTotal(), 2));
             }
-            System.out.println("Total: $" + FuncionApp.getFormatMilDecimal(fact.getTotal(),2));
+            System.out.println("Total: $" + FuncionApp.getFormatMilDecimal(fact.getTotal(), 2));
             System.out.println("*************************");
         }
     }
 
-    public static void mostrarClientes(List<Cliente> clientes){
-        for(Cliente cli : clientes){
+    public static void mostrarClientes(List<Cliente> clientes) {
+        for (Cliente cli : clientes) {
             System.out.println("Id: " + cli.getId());
             System.out.println("CUIT: " + cli.getCuit());
             System.out.println("Razon Social: " + cli.getRazonSocial());
@@ -331,19 +382,20 @@ public class MainConsultasJPQL {
     }
 
     // Ejercicio 13: Mostrar artículos cuyo precio de venta es mayor que el promedio
-    public static void buscarArticulosPrecioMayorPromedio(){
+    public static void buscarArticulosPrecioMayorPromedio() {
         System.out.println("----- buscarArticulosPrecioMayorPromedio -----");
         ArticuloManager mArticulo = new ArticuloManager(true);
-        try{
+        try {
             List<Articulo> articulos = mArticulo.getArticulosPrecioMayorPromedio();
-            if(articulos.isEmpty()){
+            if (articulos.isEmpty()) {
                 System.out.println("No hay artículos por encima del promedio.");
             } else {
-                for(Articulo a : articulos){
-                    System.out.println("Id: " + a.getId() + " - " + a.getDenominacion() + " - Precio: $" + a.getPrecioVenta());
+                for (Articulo a : articulos) {
+                    System.out.println(
+                            "Id: " + a.getId() + " - " + a.getDenominacion() + " - Precio: $" + a.getPrecioVenta());
                 }
             }
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
             mArticulo.cerrarEntityManager();
@@ -352,28 +404,30 @@ public class MainConsultasJPQL {
 
     // Ejercicio 14: Ejemplo de EXISTS en JPQL
     // Busca categorías que tienen al menos un artículo con precio mayor a un umbral
-    public static void ejemplificarExists(){
-        System.out.println("Explicación: La cláusula EXISTS se usa para verificar si una subconsulta devuelve al menos una fila.\n" +
-                "\n" +
-                "Si la subconsulta devuelve una o más filas, EXISTS retorna verdadero (TRUE).\n" +
-                "\n" +
-                "Si la subconsulta no devuelve filas, EXISTS retorna falso (FALSE).\n" +
-                "\n" +
-                "Por lo tanto, EXISTS se utiliza frecuentemente en condiciones de WHERE para comprobar la existencia de registros relacionados en otra tabla.");
+    public static void ejemplificarExists() {
+        System.out.println(
+                "Explicación: La cláusula EXISTS se usa para verificar si una subconsulta devuelve al menos una fila.\n"
+                        +
+                        "\n" +
+                        "Si la subconsulta devuelve una o más filas, EXISTS retorna verdadero (TRUE).\n" +
+                        "\n" +
+                        "Si la subconsulta no devuelve filas, EXISTS retorna falso (FALSE).\n" +
+                        "\n" +
+                        "Por lo tanto, EXISTS se utiliza frecuentemente en condiciones de WHERE para comprobar la existencia de registros relacionados en otra tabla.");
         System.out.println("----- ejemplificarExists (Categorias con artículos caros) -----");
         ArticuloManager mArticulo = new ArticuloManager(true);
-        try{
+        try {
             Double umbral = 1000d; // ejemplo: 1000 pesos
             List<Categoria> categorias = mArticulo.getCategoriasConArticuloConPrecioMayor(umbral);
-            if(categorias.isEmpty()){
+            if (categorias.isEmpty()) {
                 System.out.println("No hay categorías con artículos por encima de $" + umbral);
             } else {
-                for(Categoria c : categorias){
+                for (Categoria c : categorias) {
                     System.out.println("Categoria: " + c.getDenominacion() + " (id=" + c.getId() + ")");
                 }
             }
             System.out.println("(Consulta usando EXISTS en una subconsulta JPQL)");
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
             mArticulo.cerrarEntityManager();
