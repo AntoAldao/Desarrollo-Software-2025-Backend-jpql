@@ -20,10 +20,11 @@ public class FacturaManager {
 
     public FacturaManager(boolean anularShowSQL) {
         Map<String, Object> properties = new HashMap<>();
-        if(anularShowSQL){
-            // Desactivar el show_sql (si está activado en el persistence.xml o configuración por defecto)
+        if (anularShowSQL) {
+            // Desactivar el show_sql (si está activado en el persistence.xml o
+            // configuración por defecto)
             properties.put("hibernate.show_sql", "false");
-        }else{
+        } else {
             properties.put("hibernate.show_sql", "true");
         }
         emf = Persistence.createEntityManagerFactory("example-unit", properties);
@@ -31,7 +32,7 @@ public class FacturaManager {
 
     }
 
-    public List<Factura> getFacturas(){
+    public List<Factura> getFacturas() {
         String jpql = "FROM Factura";
         Query query = em.createQuery(jpql);
 
@@ -39,8 +40,8 @@ public class FacturaManager {
         return facturas;
     }
 
-    public List<Factura> getFacturasActivas(){
-        //si quiero buscar distintos de NULL uso -> IS NOT NULL
+    public List<Factura> getFacturasActivas() {
+        // si quiero buscar distintos de NULL uso -> IS NOT NULL
         String jpql = "FROM Factura WHERE fechaBaja IS NULL ORDER BY fechaComprobante DESC";
         Query query = em.createQuery(jpql);
 
@@ -48,7 +49,7 @@ public class FacturaManager {
         return facturas;
     }
 
-    public List<Factura> getFacturasXNroComprobante(Long nroComprobante){
+    public List<Factura> getFacturasXNroComprobante(Long nroComprobante) {
         String jpql = "FROM Factura WHERE nroComprobante = :nroComprobante";
         Query query = em.createQuery(jpql);
         query.setParameter("nroComprobante", nroComprobante);
@@ -57,7 +58,7 @@ public class FacturaManager {
         return facturas;
     }
 
-    public List<Factura> buscarFacturasXRangoFechas(LocalDate fechaInicio, LocalDate fechaFin){
+    public List<Factura> buscarFacturasXRangoFechas(LocalDate fechaInicio, LocalDate fechaFin) {
         String jpql = "FROM Factura WHERE fechaComprobante >= :fechaInicio AND fechaComprobante <= :fechaFin";
         Query query = em.createQuery(jpql);
         query.setParameter("fechaInicio", fechaInicio);
@@ -67,7 +68,7 @@ public class FacturaManager {
         return facturas;
     }
 
-    public Factura getFacturaXPtoVentaXNroComprobante(Integer puntoVenta, Long nroComprobante){
+    public Factura getFacturaXPtoVentaXNroComprobante(Integer puntoVenta, Long nroComprobante) {
         String jpql = "FROM Factura WHERE puntoVenta = :puntoVenta AND nroComprobante = :nroComprobante";
         Query query = em.createQuery(jpql);
         query.setMaxResults(1);
@@ -78,7 +79,7 @@ public class FacturaManager {
         return factura;
     }
 
-    public List<Factura> getFacturasXCliente(Long idCliente){
+    public List<Factura> getFacturasXCliente(Long idCliente) {
         String jpql = "FROM Factura WHERE cliente.id = :idCliente";
         Query query = em.createQuery(jpql);
         query.setParameter("idCliente", idCliente);
@@ -87,7 +88,7 @@ public class FacturaManager {
         return facturas;
     }
 
-    public List<Factura> getFacturasXCuitCliente(String cuitCliente){
+    public List<Factura> getFacturasXCuitCliente(String cuitCliente) {
         String jpql = "FROM Factura WHERE cliente.cuit = :cuitCliente";
         Query query = em.createQuery(jpql);
         query.setParameter("cuitCliente", cuitCliente);
@@ -96,8 +97,9 @@ public class FacturaManager {
         return facturas;
     }
 
-    public List<Factura> getFacturasXArticulo(Long idArticulo){ //INNER JOIN, LEFT JOIN, LEFT OUTER JOIN, etc
-        StringBuilder jpql = new StringBuilder("SELECT fact FROM Factura AS fact LEFT OUTER JOIN fact.detallesFactura AS detalle");
+    public List<Factura> getFacturasXArticulo(Long idArticulo) { // INNER JOIN, LEFT JOIN, LEFT OUTER JOIN, etc
+        StringBuilder jpql = new StringBuilder(
+                "SELECT fact FROM Factura AS fact LEFT OUTER JOIN fact.detallesFactura AS detalle");
         jpql.append(" WHERE detalle.id = :idArticulo");
         Query query = em.createQuery(jpql.toString());
         query.setParameter("idArticulo", idArticulo);
@@ -106,7 +108,7 @@ public class FacturaManager {
         return facturas;
     }
 
-    public Long getMaxNroComprobanteFactura(){ //MAX, MIN, COUNT, AVG, SUM
+    public Long getMaxNroComprobanteFactura() { // MAX, MIN, COUNT, AVG, SUM
         StringBuilder jpql = new StringBuilder("SELECT MAX(nroComprobante) FROM Factura WHERE fechaBaja IS NULL");
         Query query = em.createQuery(jpql.toString());
 
@@ -115,11 +117,11 @@ public class FacturaManager {
     }
 
     // Ejercicio 4: Listar los artículos más vendidos
-    public List<Object[]> getArticulosMasVendidos(){
+    public List<Object[]> getArticulosMasVendidos() {
         String jpql = "SELECT fd.articulo, SUM(fd.cantidad) as totalVendido " +
-                      "FROM FacturaDetalle fd " +
-                      "GROUP BY fd.articulo " +
-                      "ORDER BY totalVendido DESC";
+                "FROM FacturaDetalle fd " +
+                "GROUP BY fd.articulo " +
+                "ORDER BY totalVendido DESC";
         Query query = em.createQuery(jpql);
         List<Object[]> resultados = query.getResultList();
         return resultados;
@@ -137,16 +139,41 @@ public class FacturaManager {
         return query.getResultList();
     }
 
-    //Ej 9
-    public Long getCantidadFacturasTotal(){
+    // Ejercicio 5: Consultar las facturas emitidas en los 3 últimos meses de un
+    // cliente específico
+    public List<Factura> getFacturasUltimosTresMeses(Long idCliente) {
+        LocalDate fechaActual = LocalDate.now();
+        LocalDate fechaDesde = fechaActual.minusMonths(3);
+
+        String jpql = "FROM Factura f WHERE f.cliente.id = :idCliente AND f.fechaComprobante >= :fechaDesde ORDER BY f.fechaComprobante DESC";
+        Query query = em.createQuery(jpql);
+        query.setParameter("idCliente", idCliente);
+        query.setParameter("fechaDesde", fechaDesde);
+
+        List<Factura> facturas = query.getResultList();
+        return facturas;
+    }
+
+    // Ejercicio 6: Calcular el monto total facturado por un cliente
+    public Double getMontoTotalFacturadoPorCliente(Long idCliente) {
+        String jpql = "SELECT COALESCE(SUM(f.total), 0) FROM Factura f WHERE f.cliente.id = :idCliente";
+        Query query = em.createQuery(jpql);
+        query.setParameter("idCliente", idCliente);
+
+        Double total = (Double) query.getSingleResult();
+        return total;
+    }
+
+    // Ej 9
+    public Long getCantidadFacturasTotal() {
         String jpql = "SELECT COUNT(f) FROM Factura f";
         Query query = em.createQuery(jpql);
         Long cantidad = (Long) query.getSingleResult();
         return cantidad;
     }
 
-    //Ej 10
-    public List<Factura> getFacturasMayoresaXMonto(Double monto){
+    // Ej 10
+    public List<Factura> getFacturasMayoresaXMonto(Double monto) {
         String jpql = "FROM Factura f WHERE f.total > :monto";
         Query query = em.createQuery(jpql);
         query.setParameter("monto", monto);
@@ -154,7 +181,7 @@ public class FacturaManager {
         return facturas;
     }
 
-    public void cerrarEntityManager(){
+    public void cerrarEntityManager() {
         em.close();
         emf.close();
     }

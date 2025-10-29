@@ -1,6 +1,8 @@
 package managers;
 
 import funciones.FuncionApp;
+import main.java.managers.FacturaDetalleManager;
+
 import org.example.*;
 
 import javax.persistence.EntityManager;
@@ -37,7 +39,14 @@ public class MainConsultasJPQL {
         obtenerClienteConMasFacturas();
         // Ejercicio 4
         listarArticulosMasVendidos();
-
+        // Ejercicio 5
+        buscarFacturasUltimosTresMeses();
+        // Ejercicio 6
+        calcularMontoTotalFacturadoPorCliente();
+        // Ejercicio 7
+        listarArticulosPorFactura();
+        // Ejercicio 8
+        obtenerArticuloMasCaroPorFactura();
         // Ejercicio 13
         buscarArticulosPrecioMayorPromedio();
         // Ejercicio 14
