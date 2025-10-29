@@ -137,6 +137,22 @@ public class FacturaManager {
         return query.getResultList();
     }
 
+    //Ej 9
+    public Long getCantidadFacturasTotal(){
+        String jpql = "SELECT COUNT(f) FROM Factura f";
+        Query query = em.createQuery(jpql);
+        Long cantidad = (Long) query.getSingleResult();
+        return cantidad;
+    }
+
+    //Ej 10
+    public List<Factura> getFacturasMayoresaXMonto(Double monto){
+        String jpql = "FROM Factura f WHERE f.total > :monto";
+        Query query = em.createQuery(jpql);
+        query.setParameter("monto", monto);
+        List<Factura> facturas = query.getResultList();
+        return facturas;
+    }
 
     public void cerrarEntityManager(){
         em.close();
