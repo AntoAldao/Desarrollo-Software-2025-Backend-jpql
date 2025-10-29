@@ -39,12 +39,13 @@ public class FacturaDetalleManager {
     public Articulo getArticuloMasCaroPorFactura(Long facturaId) {
         String jpql = "SELECT d.articulo FROM FacturaDetalle d " +
                 "WHERE d.factura.id = :facturaId " +
-                "AND d.precioUnitario = (" +
-                "SELECT MAX(d2.precioUnitario) FROM FacturaDetalle d2 WHERE d2.factura.id = :facturaId)";
+                "AND d.articulo.precioVenta = (" +
+                "   SELECT MAX(d2.articulo.precioVenta) " +
+                "   FROM FacturaDetalle d2 WHERE d2.factura.id = :facturaId" +
+                ")";
         Query query = em.createQuery(jpql);
         query.setParameter("facturaId", facturaId);
-        Articulo articulo = (Articulo) query.getSingleResult();
-        return articulo;
+        return (Articulo) query.getSingleResult();
     }
 
     public void cerrarEntityManager() {
